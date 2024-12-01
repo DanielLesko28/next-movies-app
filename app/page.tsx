@@ -2,12 +2,11 @@
 import { useState, useEffect } from "react";
 import MoviesList from "@/components/MoviesList";
 import Navbar from "@/components/Navbar";
-import { useSearchParams, usePathname, useRouter } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
 
 export default function Home() {
   const searchParams = useSearchParams();
-  const pathname = usePathname();
   const { replace } = useRouter();
 
   const [search, setSearch] = useState(

@@ -1,10 +1,4 @@
-"use client";
-
-interface NavbarProps {
-  search: string;
-  setSearch: (value: string) => void;
-  handleSearch: (value: string) => void;
-}
+import { NavbarProps } from "@/utils/types";
 
 const Navbar = ({ search, setSearch, handleSearch }: NavbarProps) => {
   return (
