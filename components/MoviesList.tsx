@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { fetchMovies } from "@/utils/actions";
 import { MovieProps, MoviesListProps } from "@/utils/types";
 import Link from "next/link";
@@ -8,14 +8,17 @@ const MoviesList = ({ searchQuery }: MoviesListProps) => {
   const [movies, setMovies] = useState<MovieProps[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages] = useState(10); // Fixed number of pages since API doesn't provide `total_pages`
+  const [totalPages, setTotalPages] = useState(10);
 
+  // When the search query or currentPage changes, fetch new data
   useEffect(() => {
     const fetchMovieData = async () => {
       setIsLoading(true);
       try {
-        const data = await fetchMovies(currentPage); // Fetch movies for the current page
+        const data = await fetchMovies(currentPage, searchQuery); // Fetch movies with the query
+        console.log("Fetched Movies:", data); // Log the API response for inspection
         setMovies(data.results || []);
+        setTotalPages(data.total_pages || 10); // Set total pages if available
       } catch (error) {
         console.error("Error fetching movies:", error);
         setMovies([]);
@@ -25,23 +28,22 @@ const MoviesList = ({ searchQuery }: MoviesListProps) => {
     };
 
     fetchMovieData();
-  }, [currentPage]); // Refetch when the currentPage changes
-
-  const filteredMovies = movies.filter((movie) =>
-    movie.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  }, [currentPage, searchQuery]); // Trigger re-fetch when searchQuery or currentPage changes
 
   const handlePageClick = (page: number) => {
-    if (page > 0 && page <= totalPages) {
-      setCurrentPage(page); // Update the current page only if within valid range
-    }
+    setCurrentPage(page); // Update currentPage state
   };
+
+  // Reset pagination to the first page whenever searchQuery changes
+  useEffect(() => {
+    setCurrentPage(1); // Reset to the first page on search query change
+  }, [searchQuery]);
 
   if (isLoading) {
     return <p>Loading movies...</p>;
   }
 
-  if (filteredMovies.length === 0) {
+  if (searchQuery && movies.length === 0) {
     return <p>No results found for "{searchQuery}".</p>;
   }
 
@@ -49,9 +51,8 @@ const MoviesList = ({ searchQuery }: MoviesListProps) => {
 
   return (
     <div className="flex flex-col items-center min-h-screen">
-      {/* Movies Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full max-w-7xl">
-        {filteredMovies.map((movie: MovieProps) => (
+        {movies.map((movie: MovieProps) => (
           <div key={movie.id} className="p-2 mb-2">
             <Link href={`/movie/${movie.id}`}>
               <p className="text-center">{movie.title}</p>
@@ -66,9 +67,21 @@ const MoviesList = ({ searchQuery }: MoviesListProps) => {
       </div>
 
       {/* Pagination */}
-      <div className="mt-4 flex gap-2">
-        {Array.from({ length: totalPages }, (_, index) => index + 1).map(
-          (page) => (
+      <div className="mt-4 flex items-center gap-2">
+        <button
+          onClick={() => handlePageClick(currentPage - 1)}
+          disabled={currentPage === 1}
+          className="px-3 py-1 border rounded bg-blue-400 hover:bg-blue-500 disabled:bg-gray-300"
+        >
+          &lt;
+        </button>
+
+        {Array.from(
+          { length: 10 },
+          (_, index) => index + 1 + Math.floor((currentPage - 1) / 10) * 10
+        )
+          .filter((page) => page <= totalPages)
+          .map((page) => (
             <button
               key={page}
               onClick={() => handlePageClick(page)}
@@ -78,8 +91,15 @@ const MoviesList = ({ searchQuery }: MoviesListProps) => {
             >
               {page}
             </button>
-          )
-        )}
+          ))}
+
+        <button
+          onClick={() => handlePageClick(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className="px-3 py-1 border rounded bg-blue-400 hover:bg-blue-500 disabled:bg-gray-300"
+        >
+          &gt;
+        </button>
       </div>
     </div>
   );
