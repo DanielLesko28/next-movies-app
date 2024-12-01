@@ -5,6 +5,7 @@ import { fetchMovies } from "@/utils/actions";
 import { MovieProps, MoviesListProps } from "@/utils/types";
 import Link from "next/link";
 import Pagination from "./Pagination";
+import { formatDate } from "@/utils/helperFunctions";
 
 const MoviesList = ({ searchQuery }: MoviesListProps) => {
   const [movies, setMovies] = useState<MovieProps[]>([]);
@@ -65,7 +66,9 @@ const MoviesList = ({ searchQuery }: MoviesListProps) => {
         {movies.map((movie: MovieProps) => (
           <div key={movie.id} className="p-2 mb-2">
             <Link href={`/movie/${movie.id}`}>
-              <p className="text-center">{movie.title}</p>
+              <p className="text-center">
+                {movie.title} ({formatDate(movie.release_date)})
+              </p>
               <img
                 src={`${imageBaseURL}${movie.poster_path}`}
                 alt={movie.title}
