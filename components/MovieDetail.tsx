@@ -45,7 +45,8 @@ const MovieDetail = ({ movie }: MovieDetailProps) => {
           <strong>Release Date:</strong> {formatDate(movie.release_date)}
         </p>
         <p>
-          <strong>Rating:</strong> {roundToOneDecimalPlace(movie.vote_average)}
+          <strong>Rating:</strong> {roundToOneDecimalPlace(movie.vote_average)}{" "}
+          / 10
         </p>
         <p>
           Is this movie kids friendly: {movie.adult === true ? "NO" : "YES"}{" "}
