@@ -6,6 +6,7 @@ import { MovieProps, MoviesListProps } from "@/utils/types";
 import Link from "next/link";
 import Pagination from "./Pagination";
 import { formatDate } from "@/utils/helperFunctions";
+import { imageBaseURL } from "@/utils/constants";
 
 const MoviesList = ({ searchQuery }: MoviesListProps) => {
   const [movies, setMovies] = useState<MovieProps[]>([]);
@@ -57,8 +58,6 @@ const MoviesList = ({ searchQuery }: MoviesListProps) => {
   if (searchQuery && movies.length === 0) {
     return <p>No results found for "{searchQuery}".</p>;
   }
-
-  const imageBaseURL = "https://image.tmdb.org/t/p/w500";
 
   return (
     <div className="flex flex-col items-center min-h-screen">
