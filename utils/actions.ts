@@ -9,3 +9,10 @@ export async function fetchMovies(page: number = 1, query: string = "") {
 
   return data;
 }
+
+export const fetchMovieById = async (id: string) => {
+  const url = `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.NEXT_PUBLIC_API_KEY}`;
+  const response = await fetch(url);
+  const data = await response.json();
+  return data;
+};

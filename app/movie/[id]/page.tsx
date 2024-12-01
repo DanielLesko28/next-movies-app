@@ -2,14 +2,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { MovieProps } from "@/utils/types";
-
-// You can replace this with your API fetch function for a single movie.
-const fetchMovieById = async (id: string) => {
-  const url = `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.NEXT_PUBLIC_API_KEY}`;
-  const response = await fetch(url);
-  const data = await response.json();
-  return data;
-};
+import { fetchMovieById } from "@/utils/actions";
 
 const Page = () => {
   const { id } = useParams<{ id: string }>(); // Get the movie ID from the URL params
