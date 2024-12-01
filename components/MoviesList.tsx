@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useDebouncedCallback } from "use-debounce";
 import { fetchMovies } from "@/utils/actions";
 import { MovieProps, MoviesListProps } from "@/utils/types";
 import Link from "next/link";
@@ -10,38 +11,46 @@ const MoviesList = ({ searchQuery }: MoviesListProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(10);
+  const [error, setError] = useState<string | null>(null);
 
-  // When the search query or currentPage changes, fetch new data
-  useEffect(() => {
-    const fetchMovieData = async () => {
+  const fetchMovieData = useDebouncedCallback(
+    async (query: string, page: number) => {
       setIsLoading(true);
+      setError(null);
       try {
-        const data = await fetchMovies(currentPage, searchQuery); // Fetch movies with the query
-        console.log("Fetched Movies:", data); // Log the API response for inspection
+        const data = await fetchMovies(page, query);
+        console.log("Fetched Movies:", data);
         setMovies(data.results || []);
-        setTotalPages(data.total_pages || 10); // Set total pages if available
+        setTotalPages(data.total_pages || 10);
       } catch (error) {
         console.error("Error fetching movies:", error);
+        setError("Failed to fetch movies. Please try again later.");
         setMovies([]);
       } finally {
         setIsLoading(false);
       }
-    };
+    },
+    300
+  );
 
-    fetchMovieData();
-  }, [currentPage, searchQuery]); // Trigger re-fetch when searchQuery or currentPage changes
+  useEffect(() => {
+    fetchMovieData(searchQuery, currentPage);
+  }, [searchQuery, currentPage]);
 
   const handlePageClick = (page: number) => {
-    setCurrentPage(page); // Update currentPage state
+    setCurrentPage(page);
   };
 
-  // Reset pagination to the first page whenever searchQuery changes
   useEffect(() => {
-    setCurrentPage(1); // Reset to the first page on search query change
+    setCurrentPage(1);
   }, [searchQuery]);
 
   if (isLoading) {
     return <p>Loading movies...</p>;
+  }
+
+  if (error) {
+    return <p className="text-red-500">{error}</p>;
   }
 
   if (searchQuery && movies.length === 0) {

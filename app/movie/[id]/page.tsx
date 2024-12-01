@@ -5,7 +5,7 @@ import { MovieProps } from "@/utils/types";
 import { fetchMovieById } from "@/utils/actions";
 
 const Page = () => {
-  const { id } = useParams<{ id: string }>(); // Get the movie ID from the URL params
+  const { id } = useParams<{ id: string }>();
   const [movie, setMovie] = useState<MovieProps | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -13,9 +13,9 @@ const Page = () => {
   useEffect(() => {
     const getMovieData = async () => {
       setIsLoading(true);
-      setError(null); // Clear previous errors if any
+      setError(null);
       try {
-        const data = await fetchMovieById(id); // Fetch movie data using the movie ID
+        const data = await fetchMovieById(id);
         setMovie(data);
       } catch (err) {
         setError("Failed to fetch movie data");
@@ -27,7 +27,7 @@ const Page = () => {
     if (id) {
       getMovieData();
     }
-  }, [id]); // Re-run the effect if the `id` changes
+  }, [id]);
 
   if (isLoading) {
     return <p>Loading movie details...</p>;
@@ -41,7 +41,6 @@ const Page = () => {
     return <p>Movie not found.</p>;
   }
 
-  // You can structure the movie data display here
   return (
     <div className="movie-details">
       <h1>{movie.title}</h1>
@@ -57,7 +56,6 @@ const Page = () => {
       <p>
         <strong>Rating:</strong> {movie.vote_average}
       </p>
-      {/* Add more movie details as needed */}
     </div>
   );
 };
