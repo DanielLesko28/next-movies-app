@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import MoviesList from "@/components/MoviesList";
-import Navbar from "@/components/Navbar";
+import Searchbar from "@/components/Searchbar";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
 
@@ -31,7 +31,7 @@ export default function Home() {
 
   return (
     <div className="items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <Navbar
+      <Searchbar
         search={search}
         setSearch={setSearch}
         handleSearch={handleSearch}
