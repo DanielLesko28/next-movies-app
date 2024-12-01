@@ -6,3 +6,7 @@ export const formatDate = (dateString: string) => {
     day: "numeric",
   });
 };
+
+export const roundToOneDecimalPlace = (num: number): number => {
+  return Math.round(num * 10) / 10;
+};
