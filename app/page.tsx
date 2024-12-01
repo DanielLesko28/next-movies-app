@@ -1,19 +1,14 @@
 "use client";
-import { useSearchParams } from "next/navigation";
+import { useState } from "react";
 import MoviesList from "@/components/MoviesList";
+import Navbar from "@/components/Navbar";
 
 export default function Home() {
-  const searchParams = useSearchParams();
-  const searchQuery = searchParams.get("search");
+  const [search, setSearch] = useState("");
 
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <h1>Hello Daniel</h1>
-      {searchQuery ? (
-        <p>No results found for "{searchQuery}"</p>
-      ) : (
-        <MoviesList />
-      )}
+      <Navbar />
     </div>
   );
 }
