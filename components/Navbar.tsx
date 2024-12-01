@@ -10,7 +10,7 @@ const Navbar = ({ search, setSearch }: NavbarProps) => {
     <input
       type="text"
       placeholder="Find movie..."
-      className="max-w-xs bg-black p-2 border-2 border-white rounded-md"
+      className="max-w-xs bg-black p-2 border-2 mb-4 border-white rounded-md"
       onChange={(e) => {
         setSearch(e.target.value);
         // handleSearch(e.target.value);
