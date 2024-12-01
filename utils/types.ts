@@ -1,3 +1,9 @@
+export interface NavbarProps {
+  search: string;
+  setSearch: (value: string) => void;
+  handleSearch: (value: string) => void;
+}
+
 export interface MoviesListProps {
   searchQuery: string;
 }
@@ -17,4 +23,10 @@ export interface MovieProps {
   video: boolean;
   vote_average: number;
   vote_count: number;
+}
+
+export interface PaginationProps {
+  handlePageClick: (currentPage: number) => void;
+  totalPages: number;
+  currentPage: number;
 }
