@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { fetchMovies } from "@/utils/actions";
 import { MovieProps, MoviesListProps } from "@/utils/types";
 import Link from "next/link";
@@ -8,14 +8,15 @@ const MoviesList = ({ searchQuery }: MoviesListProps) => {
   const [movies, setMovies] = useState<MovieProps[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages] = useState(10); // Fixed number of pages since API doesn't provide `total_pages`
+  const [totalPages, setTotalPages] = useState(10);
 
   useEffect(() => {
     const fetchMovieData = async () => {
       setIsLoading(true);
       try {
-        const data = await fetchMovies(currentPage); // Fetch movies for the current page
+        const data = await fetchMovies(currentPage, searchQuery); // Fetch movies with the query
         setMovies(data.results || []);
+        setTotalPages(data.total_pages || 10); // Set the total number of pages if provided
       } catch (error) {
         console.error("Error fetching movies:", error);
         setMovies([]);
@@ -25,23 +26,22 @@ const MoviesList = ({ searchQuery }: MoviesListProps) => {
     };
 
     fetchMovieData();
-  }, [currentPage]); // Refetch when the currentPage changes
+  }, [currentPage, searchQuery]); // Refetch when currentPage or searchQuery changes
 
   const filteredMovies = movies.filter((movie) =>
     movie.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const handlePageClick = (page: number) => {
-    if (page > 0 && page <= totalPages) {
-      setCurrentPage(page); // Update the current page only if within valid range
-    }
+    setCurrentPage(page);
   };
 
   if (isLoading) {
     return <p>Loading movies...</p>;
   }
 
-  if (filteredMovies.length === 0) {
+  // Handle the case when no movies are found for the current search
+  if (searchQuery && filteredMovies.length === 0) {
     return <p>No results found for "{searchQuery}".</p>;
   }
 
@@ -49,7 +49,6 @@ const MoviesList = ({ searchQuery }: MoviesListProps) => {
 
   return (
     <div className="flex flex-col items-center min-h-screen">
-      {/* Movies Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full max-w-7xl">
         {filteredMovies.map((movie: MovieProps) => (
           <div key={movie.id} className="p-2 mb-2">
@@ -73,7 +72,7 @@ const MoviesList = ({ searchQuery }: MoviesListProps) => {
               key={page}
               onClick={() => handlePageClick(page)}
               className={`px-3 py-1 border rounded ${
-                page === currentPage ? "bg-blue-700 text-white" : "bg-blue-400"
+                page === currentPage ? "bg-blue-500 text-white" : "bg-gray-200"
               }`}
             >
               {page}

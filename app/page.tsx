@@ -10,8 +10,6 @@ export default function Home() {
   const pathname = usePathname();
   const { replace } = useRouter();
 
-  // console.log("pathname", pathname);
-
   const [search, setSearch] = useState(
     searchParams.get("search")?.toString() || ""
   );
