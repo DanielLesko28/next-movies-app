@@ -37,15 +37,16 @@ const FavoritesList = ({ savedFavorites }: FavoritesListProps) => {
 
   return (
     <div className="flex flex-col items-center min-h-screen">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full max-w-7xl">
-        {favorites && favorites.length > 0 ? (
+      <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full max-w-7xl">
+        {favorites &&
+          favorites.length > 0 &&
           favorites.map((movie: MovieProps) => {
             const isFavorite = favorites.some((fav) => fav.id === movie.id);
 
             return (
               <div
                 key={movie.id}
-                className="p-2 mb-2 flex justify-center relative"
+                className="p-2 mb-2 flex justify-center relative w-full"
               >
                 <Link
                   href={`/movie/${movie.id}`}
@@ -60,25 +61,21 @@ const FavoritesList = ({ savedFavorites }: FavoritesListProps) => {
                   <p className="pt-2">({formatDate(movie.release_date)})</p>
                 </Link>
                 <button className="z-10" onClick={() => toggleFavorite(movie)}>
-                  {isFavorite ? (
-                    <FaHeart
-                      size={30}
-                      className="absolute right-4 top-12 sm:right-2 text-red-500"
-                    />
-                  ) : (
-                    <FaRegHeart
-                      size={30}
-                      className="absolute right-4 top-12 sm:right-2"
-                    />
-                  )}
+                  <FaHeart
+                    size={30}
+                    className="absolute right-4 top-12 sm:right-2 text-red-500"
+                  />
                 </button>
               </div>
             );
-          })
-        ) : (
-          <p>No Movies to show</p>
-        )}
+          })}
       </div>
+
+      {favorites.length == 0 && (
+        <div className="w-full flex justify-center items-center">
+          <p className="text-center">No Movies to show</p>
+        </div>
+      )}
     </div>
   );
 };
