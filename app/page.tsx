@@ -1,20 +1,23 @@
 "use client";
-import { useState, useEffect, Suspense } from "react";
+
+import { useState, useEffect } from "react";
 import MoviesList from "@/components/MoviesList";
 import Searchbar from "@/components/Searchbar";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
 
 export default function Home() {
-  const searchParams = useSearchParams();
   const { replace } = useRouter();
 
-  const [search, setSearch] = useState(
-    searchParams.get("search")?.toString() || ""
-  );
+  const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    setSearch(params.get("search") || "");
+  }, []);
 
   const handleSearch = useDebouncedCallback((value: string) => {
-    const params = new URLSearchParams(searchParams);
+    const params = new URLSearchParams(window.location.search);
     if (value) {
       params.set("search", value);
     } else {
@@ -23,21 +26,13 @@ export default function Home() {
     replace(`/?${params.toString()}`);
   }, 500);
 
-  useEffect(() => {
-    if (!searchParams.get("search")) {
-      setSearch("");
-    }
-  }, [searchParams.get("search")]);
-
   return (
     <div className="items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <Suspense>
-        <Searchbar
-          search={search}
-          setSearch={setSearch}
-          handleSearch={handleSearch}
-        />
-      </Suspense>
+      <Searchbar
+        search={search}
+        setSearch={setSearch}
+        handleSearch={handleSearch}
+      />
       <MoviesList searchQuery={search} />
     </div>
   );
