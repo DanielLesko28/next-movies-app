@@ -34,3 +34,18 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+App is deployed on Vercel :)
+You can find deployed app on address -> https://next-movies-app-six.vercel.app/
+
+QUICK RECAP
+
+The app is made with Next.js v15, Tailwind CSS with help of Local Storage also to delay the user inputs I used use-debounce package.
+I didn't want to create the images and in my eyes the easiest way was to use react-icons package.You can see a list of movies.
+Then you are able to search for a specific movie that you like.
+Each movie is clickable and it will take you to movie detail page where there are some more information about the movie.
+Each movie you can add to your favorites. You can go to your favorites page by clicking the red heart in top right corner.
+You can remove movies from favorites page if you got tired of them. On the bottom of page you can play around
+with pagination to list more surprising movies.When you scrolled down so far and you don't want to scroll back up to the
+beginning you can either click on my name and reload the page again or click the arrow up button and
+it will take you smoothly to the beginning of the website :)
