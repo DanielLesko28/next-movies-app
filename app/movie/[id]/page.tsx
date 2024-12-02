@@ -4,6 +4,7 @@ import { useParams } from "next/navigation";
 import { MovieProps } from "@/utils/types";
 import { fetchMovieById } from "@/utils/actions";
 import MovieDetail from "@/components/MovieDetail";
+import Loader from "@/components/Loader";
 
 const Page = () => {
   const { id } = useParams<{ id: string }>();
@@ -31,11 +32,15 @@ const Page = () => {
   }, [id]);
 
   if (isLoading) {
-    return <p>Loading movie details...</p>;
+    return (
+      <div className="w-full h-screen flex justify-center items-center">
+        <Loader />
+      </div>
+    );
   }
 
   if (error) {
-    return <p>{error}</p>;
+    return <h1>{error}</h1>;
   }
 
   if (!movie) {

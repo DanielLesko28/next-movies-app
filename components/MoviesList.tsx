@@ -7,6 +7,7 @@ import Link from "next/link";
 import Pagination from "./Pagination";
 import { formatDate } from "@/utils/helperFunctions";
 import { imageBaseURL } from "@/utils/constants";
+import Loader from "./Loader";
 
 const MoviesList = ({ searchQuery }: MoviesListProps) => {
   const [movies, setMovies] = useState<MovieProps[]>([]);
@@ -48,7 +49,7 @@ const MoviesList = ({ searchQuery }: MoviesListProps) => {
   }, [searchQuery]);
 
   if (isLoading) {
-    return <p>Loading movies...</p>;
+    return <Loader />;
   }
 
   if (error) {
@@ -56,7 +57,7 @@ const MoviesList = ({ searchQuery }: MoviesListProps) => {
   }
 
   if (searchQuery && movies.length === 0) {
-    return <p>No results found for "{searchQuery}".</p>;
+    return <h1 className="text-lg">No results found for "{searchQuery}".</h1>;
   }
 
   return (
