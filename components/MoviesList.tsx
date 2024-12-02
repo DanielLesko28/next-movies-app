@@ -1,14 +1,10 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import { fetchMovies } from "@/utils/actions";
 import { MovieProps, MoviesListProps } from "@/utils/types";
-import Link from "next/link";
-import Pagination from "./Pagination";
-import { formatDate } from "@/utils/helperFunctions";
-import { imageBaseURL } from "@/utils/constants";
 import Loader from "./Loader";
-import { FaRegHeart, FaHeart } from "react-icons/fa";
+import MovieListContainer from "./MovieListContainer";
 
 let favoriteMovies: MovieProps[] = [];
 
@@ -19,6 +15,42 @@ const MoviesList = ({ searchQuery }: MoviesListProps) => {
   const [totalPages, setTotalPages] = useState(10);
   const [error, setError] = useState<string | null>(null);
   const [favorites, setFavorites] = useState<MovieProps[]>([]);
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+
+  const scrollToSection = (carBrand: string) => {
+    const section = sectionRefs.current[carBrand];
+    if (section) {
+      const navbarHeight = document.querySelector("nav")?.clientHeight || 0;
+      const sectionTop = section.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({
+        top: sectionTop - navbarHeight,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const toggleVisibility = () => {
+    if (window.pageYOffset > 300) {
+      setIsVisible(true);
+    } else {
+      setIsVisible(false);
+    }
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", toggleVisibility);
+    return () => {
+      window.removeEventListener("scroll", toggleVisibility);
+    };
+  }, []);
 
   useEffect(() => {
     const savedFavorites = localStorage.getItem("favoriteMovies");
@@ -90,57 +122,15 @@ const MoviesList = ({ searchQuery }: MoviesListProps) => {
   }
 
   return (
-    <div className="flex flex-col items-center min-h-screen">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full max-w-7xl">
-        {movies.map((movie: MovieProps) => {
-          const isFavorite = favorites.some((fav) => fav.id === movie.id);
-
-          return (
-            <div
-              key={movie.id}
-              className="p-2 mb-2 flex justify-center relative"
-            >
-              <Link
-                href={`/movie/${movie.id}`}
-                className="flex flex-col items-center"
-              >
-                <p className="text-center mb-2">{movie.title}</p>
-                <img
-                  src={`${imageBaseURL}${movie.poster_path}`}
-                  alt={movie.title}
-                  className="w-[300px] object-contain"
-                />
-                <p className="pt-2">({formatDate(movie.release_date)})</p>
-              </Link>
-              <button
-                className="z-10"
-                onClick={(e) => {
-                  toggleFavorite(movie);
-                }}
-              >
-                {isFavorite ? (
-                  <FaHeart
-                    size={30}
-                    className="absolute right-4 top-12 sm:right-2 text-red-500"
-                  />
-                ) : (
-                  <FaRegHeart
-                    size={30}
-                    className="absolute right-4 top-12 sm:right-2"
-                  />
-                )}
-              </button>
-            </div>
-          );
-        })}
-      </div>
-
-      <Pagination
-        handlePageClick={handlePageClick}
-        totalPages={totalPages}
-        currentPage={currentPage}
-      />
-    </div>
+    <MovieListContainer
+      movies={movies}
+      favorites={favorites}
+      toggleFavorite={toggleFavorite}
+      handlePageClick={handlePageClick}
+      totalPages={totalPages}
+      currentPage={currentPage}
+      isVisible={isVisible}
+    />
   );
 };
 
