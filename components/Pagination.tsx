@@ -5,6 +5,10 @@ const Pagination = ({
   currentPage,
   totalPages,
 }: PaginationProps) => {
+  const pagesToShow = 5;
+  const startPage =
+    Math.floor((currentPage - 1) / pagesToShow) * pagesToShow + 1;
+
   return (
     <section className="mt-4 flex items-center gap-2">
       <button
@@ -15,10 +19,7 @@ const Pagination = ({
         &lt;
       </button>
 
-      {Array.from(
-        { length: 10 },
-        (_, index) => index + 1 + Math.floor((currentPage - 1) / 10) * 10
-      )
+      {Array.from({ length: pagesToShow }, (_, index) => startPage + index)
         .filter((page) => page <= totalPages)
         .map((page) => (
           <button
