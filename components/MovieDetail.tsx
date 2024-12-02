@@ -1,6 +1,7 @@
 import { MovieDetails } from "@/utils/types";
 import { formatDate, roundToOneDecimalPlace } from "@/utils/helperFunctions";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 interface MovieDetailProps {
   movie: MovieDetails;
@@ -22,10 +23,12 @@ const MovieDetail = ({ movie }: MovieDetailProps) => {
       <h1 className="font-bold text-xl lg:text-3xl">{movie.title}</h1>
       <p className="text-left px-2 mb-8">{movie.overview}</p>
 
-      <img
+      <Image
         src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
         alt={movie.title}
         className="px-2 mt-2"
+        width={300}
+        height={500}
       />
       <section className="flex flex-col items-start px-4 pt-2 w-full">
         <div className="flex">

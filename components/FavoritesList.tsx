@@ -4,6 +4,7 @@ import Link from "next/link";
 import { FaHeart } from "react-icons/fa";
 import { imageBaseURL } from "@/utils/constants";
 import { formatDate } from "@/utils/helperFunctions";
+import Image from "next/image";
 
 const FavoritesList = ({ savedFavorites }: FavoritesListProps) => {
   const [favorites, setFavorites] = useState<MovieProps[]>(
@@ -51,10 +52,12 @@ const FavoritesList = ({ savedFavorites }: FavoritesListProps) => {
                   className="flex flex-col items-center"
                 >
                   <p className="text-center mb-2">{movie.title}</p>
-                  <img
+                  <Image
                     src={`${imageBaseURL}${movie.poster_path}`}
                     alt={movie.title}
                     className="w-[300px] object-contain"
+                    width={300}
+                    height={500}
                   />
                   <p className="pt-2">({formatDate(movie.release_date)})</p>
                 </Link>

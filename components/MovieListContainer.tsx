@@ -5,6 +5,7 @@ import { formatDate, trimTitle } from "@/utils/helperFunctions";
 import { imageBaseURL } from "@/utils/constants";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 import ScrollToTop from "./ScrollToTop";
+import Image from "next/image";
 
 interface MovieListContainerProps {
   movies: MovieProps[];
@@ -41,10 +42,12 @@ const MovieListContainer = ({
                 className="flex flex-col items-center"
               >
                 <p className="text-center mb-2">{trimTitle(movie.title)}</p>
-                <img
+                <Image
                   src={`${imageBaseURL}${movie.poster_path}`}
                   alt={movie.title}
                   className="w-[300px] object-contain"
+                  width={300}
+                  height={500}
                 />
                 <p className="pt-2">({formatDate(movie.release_date)})</p>
               </Link>
