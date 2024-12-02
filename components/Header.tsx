@@ -8,7 +8,7 @@ const Header = () => {
         <h1 className="md:text-xl lg:text-2xl">Dan's movies</h1>
       </Link>
       <Link href={"/favorites"}>
-        <FaHeart size={30} />
+        <FaHeart size={30} className="text-red-500" />
       </Link>
     </section>
   );
