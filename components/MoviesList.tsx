@@ -74,7 +74,7 @@ const MoviesList = ({ searchQuery }: MoviesListProps) => {
 
     localStorage.setItem("favoriteMovies", JSON.stringify(updatedFavorites));
 
-    console.log("Updated Favorites:", updatedFavorites);
+    // console.log("Updated Favorites:", updatedFavorites);
   };
 
   if (isLoading) {
