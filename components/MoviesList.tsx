@@ -6,8 +6,6 @@ import { MovieProps, MoviesListProps } from "@/utils/types";
 import Loader from "./Loader";
 import MovieListContainer from "./MovieListContainer";
 
-let favoriteMovies: MovieProps[] = [];
-
 const MoviesList = ({ searchQuery }: MoviesListProps) => {
   const [movies, setMovies] = useState<MovieProps[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -36,7 +34,6 @@ const MoviesList = ({ searchQuery }: MoviesListProps) => {
     const savedFavorites = localStorage.getItem("favoriteMovies");
     if (savedFavorites) {
       const parsedFavorites = JSON.parse(savedFavorites) as MovieProps[];
-      favoriteMovies = parsedFavorites;
       setFavorites(parsedFavorites);
     }
   }, []);
@@ -82,11 +79,8 @@ const MoviesList = ({ searchQuery }: MoviesListProps) => {
     }
 
     setFavorites(updatedFavorites);
-    favoriteMovies = updatedFavorites;
 
     localStorage.setItem("favoriteMovies", JSON.stringify(updatedFavorites));
-
-    // console.log("Updated Favorites:", updatedFavorites);
   };
 
   if (isLoading) {
@@ -98,7 +92,11 @@ const MoviesList = ({ searchQuery }: MoviesListProps) => {
   }
 
   if (searchQuery && movies.length === 0) {
-    return <h1 className="text-lg">No results found for "{searchQuery}".</h1>;
+    return (
+      <h1 className="text-lg">
+        No results found for &quot;{searchQuery}&quot;.
+      </h1>
+    );
   }
 
   return (
