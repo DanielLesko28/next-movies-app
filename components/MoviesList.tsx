@@ -18,17 +18,18 @@ const MoviesList = ({ searchQuery }: MoviesListProps) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(10);
   const [error, setError] = useState<string | null>(null);
-  const [favorites, setFavorites] = useState<MovieProps[]>([]); // Local state for reactivity
+  const [favorites, setFavorites] = useState<MovieProps[]>([]);
 
-  // Load favorites from local storage when component mounts
   useEffect(() => {
     const savedFavorites = localStorage.getItem("favoriteMovies");
     if (savedFavorites) {
       const parsedFavorites = JSON.parse(savedFavorites) as MovieProps[];
-      favoriteMovies = parsedFavorites; // Sync global state
+      favoriteMovies = parsedFavorites;
       setFavorites(parsedFavorites);
     }
   }, []);
+
+  console.log("favorites", favorites);
 
   const fetchMovieData = useDebouncedCallback(
     async (query: string, page: number) => {
@@ -63,17 +64,14 @@ const MoviesList = ({ searchQuery }: MoviesListProps) => {
     let updatedFavorites: MovieProps[];
 
     if (isAlreadyFavorite) {
-      // Remove from favorites
       updatedFavorites = favorites.filter((fav) => fav.id !== movie.id);
     } else {
-      // Add to favorites
       updatedFavorites = [...favorites, movie];
     }
 
     setFavorites(updatedFavorites);
-    favoriteMovies = updatedFavorites; // Sync global state
+    favoriteMovies = updatedFavorites;
 
-    // Save updated favorites to local storage
     localStorage.setItem("favoriteMovies", JSON.stringify(updatedFavorites));
 
     console.log("Updated Favorites:", updatedFavorites);
@@ -117,9 +115,7 @@ const MoviesList = ({ searchQuery }: MoviesListProps) => {
               <button
                 className="z-10"
                 onClick={(e) => {
-                  e.preventDefault(); // Prevent navigation
-                  e.stopPropagation(); // Stop bubbling to Link
-                  toggleFavorite(movie); // Toggle favorite
+                  toggleFavorite(movie);
                 }}
               >
                 {isFavorite ? (
