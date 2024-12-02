@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import { FavoritesListProps, MovieProps } from "@/utils/types";
 import Link from "next/link";
-import { FaHeart } from "react-icons/fa";
+import { FaHeart, FaArrowLeft } from "react-icons/fa";
 import { imageBaseURL } from "@/utils/constants";
 import { formatDate } from "@/utils/helperFunctions";
+import { useRouter } from "next/navigation";
 
 const FavoritesList = ({ savedFavorites }: FavoritesListProps) => {
+  const router = useRouter();
+
   const [favorites, setFavorites] = useState<MovieProps[]>(
     savedFavorites || []
   );
@@ -37,6 +40,15 @@ const FavoritesList = ({ savedFavorites }: FavoritesListProps) => {
 
   return (
     <div className="flex flex-col items-center min-h-screen">
+      <div className="w-full px-4 mb-8">
+        <button
+          className="bg-blue-600 px-2 py-1 rounded-md flex items-center gap-2"
+          onClick={() => router.back()}
+        >
+          <FaArrowLeft />
+          Go Back
+        </button>
+      </div>
       <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full max-w-7xl">
         {favorites &&
           favorites.length > 0 &&
