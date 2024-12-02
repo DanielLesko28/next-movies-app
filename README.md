@@ -40,7 +40,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 ## Where you can browse through the app
 
 App is deployed on Vercel :)
-You can find deployed app on address -> https://next-movies-app-six.vercel.app/
+You can find deployed app on address -> [Working Movie App](https://next-movies-app-six.vercel.app/)
 
 ## Quick Recap
 
@@ -64,6 +64,7 @@ I almost forgot, here are the tokens that you need to have locally if you want t
 API_URL="https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&page=1"
 
 NEXT_PUBLIC_API_URL="https://api.themoviedb.org/3/discover/movie?api_key=${NEXT_PUBLIC_API_KEY}&page=1"
+
 NEXT_PUBLIC_API_KEY=""//You need to create this yourself on their website
 
 NEXT_IMAGE_BASE_URL="https://image.tmdb.org/t/p/w500"
