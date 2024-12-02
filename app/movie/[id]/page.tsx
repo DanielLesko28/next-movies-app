@@ -21,6 +21,7 @@ const Page = () => {
         setMovie(data);
       } catch (err) {
         setError("Failed to fetch movie data");
+        console.log(err);
       } finally {
         setIsLoading(false);
       }

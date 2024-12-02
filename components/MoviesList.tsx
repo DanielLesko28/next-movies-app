@@ -25,13 +25,6 @@ const MoviesList = ({ searchQuery }: MoviesListProps) => {
     }
   };
 
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
-
   useEffect(() => {
     window.addEventListener("scroll", toggleVisibility);
     return () => {

@@ -50,7 +50,7 @@ const MovieListContainer = ({
               </Link>
               <button
                 className="z-10"
-                onClick={(e) => {
+                onClick={() => {
                   toggleFavorite(movie);
                 }}
               >
