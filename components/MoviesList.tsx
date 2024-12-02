@@ -10,7 +10,7 @@ import { imageBaseURL } from "@/utils/constants";
 import Loader from "./Loader";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 
-let favoriteMovies: MovieProps[] = []; // Global favorites array
+let favoriteMovies: MovieProps[] = [];
 
 const MoviesList = ({ searchQuery }: MoviesListProps) => {
   const [movies, setMovies] = useState<MovieProps[]>([]);
