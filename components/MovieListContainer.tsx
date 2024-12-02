@@ -1,7 +1,7 @@
 import { MovieProps } from "@/utils/types";
 import Link from "next/link";
 import Pagination from "./Pagination";
-import { formatDate } from "@/utils/helperFunctions";
+import { formatDate, trimTitle } from "@/utils/helperFunctions";
 import { imageBaseURL } from "@/utils/constants";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 import ScrollToTop from "./ScrollToTop";
@@ -40,7 +40,7 @@ const MovieListContainer = ({
                 href={`/movie/${movie.id}`}
                 className="flex flex-col items-center"
               >
-                <p className="text-center mb-2">{movie.title}</p>
+                <p className="text-center mb-2">{trimTitle(movie.title)}</p>
                 <img
                   src={`${imageBaseURL}${movie.poster_path}`}
                   alt={movie.title}

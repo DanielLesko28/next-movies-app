@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { FavoritesListProps, MovieProps } from "@/utils/types";
 import Link from "next/link";
-import { FaRegHeart, FaHeart } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
 import { imageBaseURL } from "@/utils/constants";
 import { formatDate } from "@/utils/helperFunctions";
 
