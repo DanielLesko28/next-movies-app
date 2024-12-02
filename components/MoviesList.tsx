@@ -29,7 +29,7 @@ const MoviesList = ({ searchQuery }: MoviesListProps) => {
     }
   }, []);
 
-  console.log("favorites", favorites);
+  //   console.log("favorites", favorites);
 
   const fetchMovieData = useDebouncedCallback(
     async (query: string, page: number) => {
