@@ -22,7 +22,7 @@ const MoviesList = ({ searchQuery }: MoviesListProps) => {
       setError(null);
       try {
         const data = await fetchMovies(page, query);
-        console.log("Fetched Movies:", data);
+        // console.log("Fetched Movies:", data);
         setMovies(data.results || []);
         setTotalPages(data.total_pages || 10);
       } catch (error) {
