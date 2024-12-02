@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import { fetchMovies } from "@/utils/actions";
 import { MovieProps, MoviesListProps } from "@/utils/types";
@@ -16,19 +16,6 @@ const MoviesList = ({ searchQuery }: MoviesListProps) => {
   const [error, setError] = useState<string | null>(null);
   const [favorites, setFavorites] = useState<MovieProps[]>([]);
   const [isVisible, setIsVisible] = useState(false);
-  const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
-
-  const scrollToSection = (carBrand: string) => {
-    const section = sectionRefs.current[carBrand];
-    if (section) {
-      const navbarHeight = document.querySelector("nav")?.clientHeight || 0;
-      const sectionTop = section.getBoundingClientRect().top + window.scrollY;
-      window.scrollTo({
-        top: sectionTop - navbarHeight,
-        behavior: "smooth",
-      });
-    }
-  };
 
   const toggleVisibility = () => {
     if (window.pageYOffset > 300) {
