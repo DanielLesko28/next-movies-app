@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import MoviesList from "@/components/MoviesList";
 import Searchbar from "@/components/Searchbar";
 import { useSearchParams, useRouter } from "next/navigation";
@@ -31,11 +31,13 @@ export default function Home() {
 
   return (
     <div className="items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <Searchbar
-        search={search}
-        setSearch={setSearch}
-        handleSearch={handleSearch}
-      />
+      <Suspense>
+        <Searchbar
+          search={search}
+          setSearch={setSearch}
+          handleSearch={handleSearch}
+        />
+      </Suspense>
       <MoviesList searchQuery={search} />
     </div>
   );
