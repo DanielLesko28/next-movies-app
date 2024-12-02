@@ -1,6 +1,7 @@
 import { MovieDetails } from "@/utils/types";
 import { formatDate, roundToOneDecimalPlace } from "@/utils/helperFunctions";
 import { useRouter } from "next/navigation";
+import { FaArrowLeft } from "react-icons/fa";
 
 interface MovieDetailProps {
   movie: MovieDetails;
@@ -13,9 +14,10 @@ const MovieDetail = ({ movie }: MovieDetailProps) => {
     <div className="flex flex-col items-center">
       <div className="w-full px-4 pt-2">
         <button
-          className="bg-blue-600 px-2 py-1 rounded-md"
+          className="bg-blue-600 px-2 py-1 rounded-md flex items-center gap-2"
           onClick={() => router.back()}
         >
+          <FaArrowLeft />
           Go Back
         </button>
       </div>
