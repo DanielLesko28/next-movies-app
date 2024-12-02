@@ -41,8 +41,6 @@ const FavoritesList = ({ savedFavorites }: FavoritesListProps) => {
         {favorites &&
           favorites.length > 0 &&
           favorites.map((movie: MovieProps) => {
-            const isFavorite = favorites.some((fav) => fav.id === movie.id);
-
             return (
               <div
                 key={movie.id}
