@@ -84,7 +84,11 @@ const MoviesList = ({ searchQuery }: MoviesListProps) => {
   };
 
   if (isLoading) {
-    return <Loader />;
+    return (
+      <section className="w-full flex justify-center">
+        <Loader />
+      </section>
+    );
   }
 
   if (error) {
