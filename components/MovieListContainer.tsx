@@ -1,7 +1,7 @@
 import { MovieProps } from "@/utils/types";
 import Link from "next/link";
 import Pagination from "./Pagination";
-import { formatDate, shuffle, trimTitle } from "@/utils/helperFunctions";
+import { formatDate, trimTitle } from "@/utils/helperFunctions";
 import { imageBaseURL } from "@/utils/constants";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 import ScrollToTop from "./ScrollToTop";
@@ -25,14 +25,10 @@ const MovieListContainer = ({
   currentPage,
   isVisible,
 }: MovieListContainerProps) => {
-  const shuffledArray = shuffle(movies);
-
-  // console.log("shuffledArray", shuffledArray);
-
   return (
     <div className="flex flex-col items-center min-h-screen">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full max-w-7xl">
-        {shuffledArray.map((movie: MovieProps) => {
+        {movies.map((movie: MovieProps) => {
           const isFavorite = favorites.some((fav) => fav.id === movie.id);
 
           return (
